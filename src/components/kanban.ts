@@ -110,20 +110,20 @@ const STORAGE_KEY = 'kanban-data'
     </div>
 
     <p-dialog
-      header="Add New Task"
-      [(visible)]="visible"
+      [header]="isEditMode ? 'Edit Task' : 'Add New Task'"
+      [(visible)]="dialogVisible"
       [style]="{ width: '450px' }"
       [modal]="true"
     >
       <div class="flex flex-col gap-4">
         <p-floatlabel variant="in">
-          <input pInputText id="task-title" [(ngModel)]="newTaskTitle" class="w-full" />
+          <input pInputText id="task-title" [(ngModel)]="taskTitle" class="w-full" />
           <label for="task-title">Title</label>
         </p-floatlabel>
 
         <div class="flex justify-end gap-3 pt-2">
           <p-button label="Cancel" (click)="closeDialog()" severity="secondary" text="true" />
-          <p-button label="Save" (click)="saveNewTask()" [disabled]="!newTaskTitle()" />
+          <p-button label="Save" (click)="saveTask()" [disabled]="!taskTitle()" />
         </div>
       </div>
     </p-dialog>
@@ -135,12 +135,20 @@ export class KanbanComponent implements OnInit {
   doneList = signal<KanbanItem[]>([])
   kanbanList = signal<KanbanList[]>([])
 
-  visible = false
-  newTaskTitle = model('')
+  dialogVisible = false
+  taskTitle = model('')
   currentListId = ''
   currentItemId = ''
+  isEditMode = false
 
   items: MenuItem[] = [
+    {
+      label: 'Edit',
+      icon: 'pi pi-pencil',
+      command: () => {
+        this.openDialog(this.currentListId, true)
+      },
+    },
     {
       label: 'Delete',
       icon: 'pi pi-trash',
@@ -159,15 +167,27 @@ export class KanbanComponent implements OnInit {
     ])
   }
 
-  openDialog(listId: string) {
+  openDialog(listId: string, isEdit = false) {
     this.currentListId = listId
-    this.newTaskTitle.set('')
-    this.visible = true
+    this.isEditMode = isEdit
+
+    if (isEdit) {
+      const list = this.kanbanList().find((l) => l.id === listId)
+      const task = list?.data().find((i) => i.id === this.currentItemId)
+      if (task) {
+        this.taskTitle.set(task.title)
+      }
+    } else {
+      this.taskTitle.set('')
+    }
+
+    this.dialogVisible = true
   }
 
   closeDialog() {
-    this.newTaskTitle.set('')
-    this.visible = false
+    this.taskTitle.set('')
+    this.dialogVisible = false
+    this.isEditMode = false
   }
 
   toggleMenu(menu: Menu, event: MouseEvent, listId: string, itemId: string) {
@@ -176,19 +196,25 @@ export class KanbanComponent implements OnInit {
     menu.toggle(event)
   }
 
-  saveNewTask() {
-    const title = this.newTaskTitle().trim()
+  saveTask() {
+    const title = this.taskTitle().trim()
     if (!title) return
 
     const list = this.kanbanList().find((l) => l.id === this.currentListId)
     if (list) {
-      list.data.update((items) => [
-        ...items,
-        {
-          id: crypto.randomUUID(),
-          title: title,
-        },
-      ])
+      if (this.isEditMode) {
+        list.data.update((items) =>
+          items.map((item) => (item.id === this.currentItemId ? { ...item, title } : item)),
+        )
+      } else {
+        list.data.update((items) => [
+          ...items,
+          {
+            id: crypto.randomUUID(),
+            title: title,
+          },
+        ])
+      }
       this.saveData()
     }
     this.closeDialog()
