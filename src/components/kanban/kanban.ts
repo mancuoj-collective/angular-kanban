@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, model, computed } from '@angular/core'
+import { Component, signal, OnInit, model, computed, effect } from '@angular/core'
 import {
   CdkDragDrop,
   CdkDrag,
@@ -67,6 +67,17 @@ export class KanbanComponent implements OnInit {
     },
   ]
 
+  constructor() {
+    effect(() => {
+      const data = {
+        todo: this.todoList(),
+        inProgress: this.inProgressList(),
+        done: this.doneList(),
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    })
+  }
+
   ngOnInit() {
     this.loadData()
   }
@@ -82,7 +93,6 @@ export class KanbanComponent implements OnInit {
         event.currentIndex,
       )
     }
-    this.saveData()
   }
 
   openDialog(listId: string, isEdit = false) {
@@ -128,7 +138,6 @@ export class KanbanComponent implements OnInit {
         },
       ])
     }
-    this.saveData()
     this.closeDialog()
   }
 
@@ -136,7 +145,6 @@ export class KanbanComponent implements OnInit {
     this.getList(this.currentListId).data.update((items) =>
       items.filter((i) => i.id !== this.currentItemId),
     )
-    this.saveData()
   }
 
   private getList(listId: string) {
@@ -176,14 +184,5 @@ export class KanbanComponent implements OnInit {
       { id: '4', title: 'Learn Svelte' },
     ])
     this.doneList.set([{ id: '5', title: 'Learn Solid' }])
-  }
-
-  private saveData() {
-    const data = {
-      todo: this.todoList(),
-      inProgress: this.inProgressList(),
-      done: this.doneList(),
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }
 }
