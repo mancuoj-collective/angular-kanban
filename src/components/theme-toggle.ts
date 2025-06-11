@@ -1,7 +1,7 @@
 import { Component, computed, effect, signal } from '@angular/core'
 import { ButtonModule } from 'primeng/button'
 
-const STORAGE_KEY = 'angular-tmpl-theme'
+const STORAGE_KEY = 'angular-tmpl-kanban-theme'
 
 @Component({
   selector: 'app-theme-toggle',

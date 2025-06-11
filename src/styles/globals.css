@@ -4,11 +4,11 @@
 @import '@fontsource-variable/jetbrains-mono';
 @import 'primeicons/primeicons.css';
 
+@plugin 'tailwind-scrollbar';
+@plugin "tailwindcss-primeui";
 @plugin "@iconify/tailwind4" {
   prefixes: carbon;
 }
-
-@plugin "tailwindcss-primeui";
 
 @custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
 

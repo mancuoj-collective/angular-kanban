@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button'
   imports: [ButtonModule],
   template: `
     <a
-      href="https://github.com/mancuoj-collective/angular-tmpl"
+      href="https://github.com/mancuoj-collective/angular-tmpl-kanban"
       target="_blank"
       rel="noopener noreferrer"
       class="p-button"

@@ -28,7 +28,7 @@ interface KanbanList {
   data: WritableSignal<KanbanItem[]>
 }
 
-const STORAGE_KEY = 'kanban'
+const STORAGE_KEY = 'kanban-data'
 
 @Component({
   selector: 'app-kanban',
@@ -48,13 +48,15 @@ const STORAGE_KEY = 'kanban'
   ],
 
   template: `
-    <div cdkDropListGroup class="flex gap-6">
+    <div cdkDropListGroup class="flex gap-3 md:gap-6">
       @for (list of kanbanList(); track list.id) {
-      <div class="w-1/3 bg-surface-100 dark:bg-surface-800 rounded-xl shadow">
+      <div
+        class="w-1/3 bg-surface-50 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-lg shadow-sm"
+      >
         <div
-          class="flex justify-between items-center border-b-2 border-primary-300 dark:border-primary-600 pb-2 p-4"
+          class="flex justify-between items-center border-b border-surface-200 dark:border-surface-700 pb-3 p-4"
         >
-          <h2 class="text-xl font-bold">
+          <h2 class="text-lg font-medium shrink-0 text-surface-900 dark:text-surface-50">
             {{ list.title }}
           </h2>
           <p-button
@@ -69,14 +71,14 @@ const STORAGE_KEY = 'kanban'
           cdkDropList
           [cdkDropListData]="list.data()"
           (cdkDropListDropped)="drop($event)"
-          class="space-y-3 pt-4 h-[500px] overflow-y-auto"
+          class="space-y-2 p-3 pt-5 h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-surface-300 dark:scrollbar-thumb-surface-600 scrollbar-track-surface-100 dark:scrollbar-track-surface-700"
         >
           @for (item of list.data(); track item) {
           <div
-            class="bg-surface-200 dark:bg-surface-700 hover:bg-surface-300 dark:hover:bg-surface-600 rounded-xl h-12 flex items-center pl-3 pr-2 min-w-0 shrink-0 truncate group mx-4"
+            class="bg-white dark:bg-surface-800 hover:bg-surface-100 dark:hover:bg-surface-700 rounded-md h-11 flex items-center pl-3 pr-2 min-w-0 shrink-0 truncate group border border-surface-200 dark:border-surface-700"
             cdkDrag
           >
-            {{ item.title }}
+            <span class="text-surface-900 dark:text-surface-50">{{ item.title }}</span>
             <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
               <p-button
                 (click)="toggleMenu(menu, $event, list.id, item.id)"
@@ -89,14 +91,16 @@ const STORAGE_KEY = 'kanban'
             </div>
 
             <div *cdkDragPreview>
-              <div class="bg-surface-300 dark:bg-surface-600 p-3 rounded-xl">
+              <div
+                class="bg-surface-100 dark:bg-surface-700 p-3 rounded-md shadow-lg border border-surface-200 dark:border-surface-600"
+              >
                 {{ item.title }}
               </div>
             </div>
 
             <div
               *cdkDragPlaceholder
-              class="border-2 border-dashed border-primary-400 dark:border-primary-500 h-12 rounded-xl"
+              class="border-2 border-dashed border-surface-300 dark:border-surface-600 h-11 rounded-md"
             ></div>
           </div>
           }
@@ -117,8 +121,8 @@ const STORAGE_KEY = 'kanban'
           <label for="task-title">Title</label>
         </p-floatlabel>
 
-        <div class="flex justify-end gap-2">
-          <p-button label="Cancel" (click)="closeDialog()" severity="secondary" />
+        <div class="flex justify-end gap-3 pt-2">
+          <p-button label="Cancel" (click)="closeDialog()" severity="secondary" text="true" />
           <p-button label="Save" (click)="saveNewTask()" [disabled]="!newTaskTitle()" />
         </div>
       </div>

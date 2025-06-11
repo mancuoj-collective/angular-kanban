@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-tmpl": {
+    "angular-tmpl-kanban": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -51,10 +51,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-tmpl:build:production"
+              "buildTarget": "angular-tmpl-kanban:build:production"
             },
             "development": {
-              "buildTarget": "angular-tmpl:build:development"
+              "buildTarget": "angular-tmpl-kanban:build:development"
             }
           },
           "defaultConfiguration": "development"
