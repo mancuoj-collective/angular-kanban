@@ -134,7 +134,7 @@ export class KanbanComponent implements OnInit {
         ...items,
         {
           id: crypto.randomUUID(),
-          title: title,
+          title,
         },
       ])
     }
