@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/lora';
+@import '@fontsource-variable/jetbrains-mono';
+@import 'primeicons/primeicons.css';
+
+@plugin "@iconify/tailwind4" {
+  prefixes: carbon;
+}
+
+@plugin "tailwindcss-primeui";
+
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
+
+@theme inline {
+  --font-sans: 'DM Sans Variable', sans-serif;
+  --font-serif: 'Lora Variable', serif;
+  --font-mono: 'JetBrains Mono Variable', monospace;
+}
