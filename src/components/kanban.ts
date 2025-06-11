@@ -71,7 +71,7 @@ const STORAGE_KEY = 'kanban-data'
           cdkDropList
           [cdkDropListData]="list.data()"
           (cdkDropListDropped)="drop($event)"
-          class="space-y-2 p-3 pt-5 h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-surface-300 dark:scrollbar-thumb-surface-600 scrollbar-track-surface-100 dark:scrollbar-track-surface-700"
+          class="space-y-2 p-3 pt-5 h-[520px] overflow-y-auto scrollbar-thin scrollbar-thumb-surface-300 dark:scrollbar-thumb-surface-600 scrollbar-track-surface-100 dark:scrollbar-track-surface-700"
         >
           @for (item of list.data(); track item) {
           <div
