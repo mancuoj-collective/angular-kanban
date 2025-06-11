@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, model } from '@angular/core'
+import { Component, signal, OnInit, model, computed } from '@angular/core'
 import {
   CdkDragDrop,
   CdkDrag,
@@ -42,7 +42,11 @@ export class KanbanComponent implements OnInit {
   todoList = signal<KanbanItem[]>([])
   inProgressList = signal<KanbanItem[]>([])
   doneList = signal<KanbanItem[]>([])
-  kanbanList = signal<KanbanList[]>([])
+  kanbanList = computed<KanbanList[]>(() => [
+    { id: 'todo', title: 'To Do', data: this.todoList },
+    { id: 'inProgress', title: 'In Progress', data: this.inProgressList },
+    { id: 'done', title: 'Done', data: this.doneList },
+  ])
 
   dialogVisible = false
   taskTitle = model('')
@@ -54,26 +58,17 @@ export class KanbanComponent implements OnInit {
     {
       label: 'Edit',
       icon: 'pi pi-pencil',
-      command: () => {
-        this.openDialog(this.currentListId, true)
-      },
+      command: () => this.openDialog(this.currentListId, true),
     },
     {
       label: 'Delete',
       icon: 'pi pi-trash',
-      command: () => {
-        this.deleteTask()
-      },
+      command: () => this.deleteTask(),
     },
   ]
 
   ngOnInit() {
     this.loadData()
-    this.kanbanList.set([
-      { id: 'todo', title: 'To Do', data: this.todoList },
-      { id: 'inProgress', title: 'In Progress', data: this.inProgressList },
-      { id: 'done', title: 'Done', data: this.doneList },
-    ])
   }
 
   drop(event: CdkDragDrop<KanbanItem[]>) {
@@ -95,11 +90,7 @@ export class KanbanComponent implements OnInit {
     this.isEditMode = isEdit
 
     if (isEdit) {
-      const list = this.kanbanList().find((l) => l.id === listId)
-      const task = list?.data().find((i) => i.id === this.currentItemId)
-      if (task) {
-        this.taskTitle.set(task.title)
-      }
+      this.taskTitle.set(this.getTask(listId, this.currentItemId).title)
     } else {
       this.taskTitle.set('')
     }
@@ -123,32 +114,39 @@ export class KanbanComponent implements OnInit {
     const title = this.taskTitle().trim()
     if (!title) return
 
-    const list = this.kanbanList().find((l) => l.id === this.currentListId)
-    if (list) {
-      if (this.isEditMode) {
-        list.data.update((items) =>
-          items.map((item) => (item.id === this.currentItemId ? { ...item, title } : item)),
-        )
-      } else {
-        list.data.update((items) => [
-          ...items,
-          {
-            id: crypto.randomUUID(),
-            title: title,
-          },
-        ])
-      }
-      this.saveData()
+    const list = this.getList(this.currentListId)
+    if (this.isEditMode) {
+      list.data.update((items) =>
+        items.map((item) => (item.id === this.currentItemId ? { ...item, title } : item)),
+      )
+    } else {
+      list.data.update((items) => [
+        ...items,
+        {
+          id: crypto.randomUUID(),
+          title: title,
+        },
+      ])
     }
+    this.saveData()
     this.closeDialog()
   }
 
   deleteTask() {
-    const list = this.kanbanList().find((l) => l.id === this.currentListId)
-    if (list) {
-      list.data.update((items) => items.filter((i) => i.id !== this.currentItemId))
-      this.saveData()
-    }
+    this.getList(this.currentListId).data.update((items) =>
+      items.filter((i) => i.id !== this.currentItemId),
+    )
+    this.saveData()
+  }
+
+  private getList(listId: string) {
+    return this.kanbanList().find((l) => l.id === listId)!
+  }
+
+  private getTask(listId: string, itemId: string) {
+    return this.getList(listId)
+      .data()
+      .find((i) => i.id === itemId)!
   }
 
   private loadData() {
