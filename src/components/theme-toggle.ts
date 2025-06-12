@@ -27,7 +27,11 @@ export class ThemeToggleComponent {
   constructor() {
     effect(() => {
       localStorage.setItem(STORAGE_KEY, this.theme())
-      document.documentElement.classList.toggle('my-app-dark', this.isDark())
+      if (this.isDark()) {
+        document.documentElement.classList.add('p-dark')
+      } else {
+        document.documentElement.classList.remove('p-dark')
+      }
     })
   }
 
