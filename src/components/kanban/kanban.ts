@@ -4,8 +4,6 @@ import {
   CdkDrag,
   CdkDropList,
   CdkDropListGroup,
-  moveItemInArray,
-  transferArrayItem,
   CdkDragPlaceholder,
   CdkDragPreview,
 } from '@angular/cdk/drag-drop'
@@ -61,15 +59,27 @@ export class KanbanComponent {
 
   drop(event: CdkDragDrop<KanbanItem[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
+      // 同列表内移动
+      const listId = this.getListIdByData(event.container.data)
+      this.kanbanService.moveItemInSameList(listId, event.previousIndex, event.currentIndex)
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
+      // 跨列表移动
+      const fromListId = this.getListIdByData(event.previousContainer.data)
+      const toListId = this.getListIdByData(event.container.data)
+      this.kanbanService.moveItemBetweenLists(
+        fromListId,
+        toListId,
         event.previousIndex,
         event.currentIndex,
       )
     }
+  }
+
+  private getListIdByData(data: KanbanItem[]): string {
+    if (data === this.kanbanService.todoList()) return 'todo'
+    if (data === this.kanbanService.inProgressList()) return 'inProgress'
+    if (data === this.kanbanService.doneList()) return 'done'
+    return ''
   }
 
   openDialog(listId: string, isEdit = false) {

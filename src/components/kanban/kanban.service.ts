@@ -53,6 +53,35 @@ export class KanbanService {
     this.getList(listId).data.update((items) => items.filter((i) => i.id !== itemId))
   }
 
+  moveItemInSameList(listId: string, previousIndex: number, currentIndex: number) {
+    this.getList(listId).data.update((items) => {
+      const newItems = [...items]
+      const [movedItem] = newItems.splice(previousIndex, 1)
+      newItems.splice(currentIndex, 0, movedItem)
+      return newItems
+    })
+  }
+
+  moveItemBetweenLists(
+    fromListId: string,
+    toListId: string,
+    previousIndex: number,
+    currentIndex: number,
+  ) {
+    // 从源列表移除项目
+    const movedItem = this.getList(fromListId).data()[previousIndex]
+    this.getList(fromListId).data.update((items) =>
+      items.filter((_, index) => index !== previousIndex),
+    )
+
+    // 添加到目标列表
+    this.getList(toListId).data.update((items) => {
+      const newItems = [...items]
+      newItems.splice(currentIndex, 0, movedItem)
+      return newItems
+    })
+  }
+
   private loadData() {
     const savedData = localStorage.getItem(STORAGE_KEY)
     if (savedData) {
