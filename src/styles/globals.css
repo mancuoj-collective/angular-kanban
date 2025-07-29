@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/dm-sans';
-@import '@fontsource-variable/lora';
-@import '@fontsource-variable/jetbrains-mono';
 @import 'primeicons/primeicons.css';
 
 @plugin 'tailwind-scrollbar';
@@ -14,6 +12,4 @@
 
 @theme inline {
   --font-sans: 'DM Sans Variable', sans-serif;
-  --font-serif: 'Lora Variable', serif;
-  --font-mono: 'JetBrains Mono Variable', monospace;
 }
