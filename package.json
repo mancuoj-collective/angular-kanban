@@ -31,13 +31,13 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-eslint/builder": "19.8.1",
+    "@angular-eslint/builder": "20.1.1",
     "@angular/build": "^20.1.6",
     "@angular/cli": "^20.1.6",
     "@angular/compiler-cli": "^20.1.7",
     "@eslint/js": "^9.33.0",
     "@mancuoj/prettier-config": "^0.5.3",
-    "angular-eslint": "19.8.1",
+    "angular-eslint": "20.1.1",
     "eslint": "^9.33.0",
     "prettier": "^3.6.2",
     "tailwind-scrollbar": "^4.0.2",
