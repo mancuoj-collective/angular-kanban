@@ -8,17 +8,17 @@
     "format": "prettier -w ."
   },
   "dependencies": {
-    "@angular/animations": "^20.3.13",
+    "@angular/animations": "^20.3.14",
     "@angular/cdk": "^20.2.14",
-    "@angular/common": "^20.3.13",
-    "@angular/compiler": "^20.3.13",
-    "@angular/core": "^20.3.13",
-    "@angular/forms": "^20.3.13",
-    "@angular/platform-browser": "^20.3.13",
-    "@angular/router": "^20.3.13",
+    "@angular/common": "^20.3.14",
+    "@angular/compiler": "^20.3.14",
+    "@angular/core": "^20.3.14",
+    "@angular/forms": "^20.3.14",
+    "@angular/platform-browser": "^20.3.14",
+    "@angular/router": "^20.3.14",
     "@fontsource-variable/dm-sans": "^5.2.8",
     "@iconify-json/carbon": "^1.2.14",
-    "@iconify/tailwind4": "^1.1.0",
+    "@iconify/tailwind4": "^1.2.0",
     "@primeng/themes": "^20.3.0",
     "@tailwindcss/postcss": "^4.1.17",
     "postcss": "^8.5.6",
@@ -32,17 +32,17 @@
   },
   "devDependencies": {
     "@angular-eslint/builder": "20.7.0",
-    "@angular/build": "^21.0.0",
-    "@angular/cli": "^21.0.0",
-    "@angular/compiler-cli": "^20.3.13",
+    "@angular/build": "^21.0.1",
+    "@angular/cli": "^21.0.1",
+    "@angular/compiler-cli": "^20.3.14",
     "@eslint/js": "^9.39.1",
     "@mancuoj/prettier-config": "^0.5.3",
     "angular-eslint": "20.7.0",
     "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.3",
     "tailwind-scrollbar": "^4.0.2",
     "typescript": "~5.9.3",
-    "typescript-eslint": "8.47.0"
+    "typescript-eslint": "8.48.0"
   },
   "prettier": "@mancuoj/prettier-config"
 }
