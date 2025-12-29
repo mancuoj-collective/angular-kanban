@@ -42,7 +42,7 @@
     "prettier": "^3.7.4",
     "tailwind-scrollbar": "^4.0.2",
     "typescript": "~5.9.3",
-    "typescript-eslint": "8.50.0"
+    "typescript-eslint": "8.50.1"
   },
   "prettier": "@mancuoj/prettier-config"
 }
