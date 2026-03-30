@@ -41,7 +41,7 @@
     "eslint": "^10.1.0",
     "prettier": "^3.8.1",
     "tailwind-scrollbar": "^4.0.2",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.2",
     "typescript-eslint": "8.57.2"
   },
   "prettier": "@mancuoj/prettier-config"
